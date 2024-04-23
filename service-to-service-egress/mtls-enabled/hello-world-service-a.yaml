@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-a # Name of the GSL file
+  annotations: #Greymatter sidecar injection tag. Port should match containerPort e.g. 8080 
+    greymatter.io/inject-sidecar-to: "8080"
+  labels:
+    app: service-a
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-a
+  template:
+    metadata:
+      labels:
+        app: service-a
+    spec:
+      containers:
+        - name: service-a
+          image: ghcr.io/greymatter-io/example-deployments/hello-world-service-a:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080 # Port that service-a listens on
+          env:
+          - name: SERVICE_PORT
+            value: "8080"
+          - name: SECURITY_SETTING
+            value: "MTLS"
