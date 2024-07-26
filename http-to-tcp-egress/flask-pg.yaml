@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pg-flask-app
+  name: flask
   labels:
-    app: pg-flask-app
+    app: flask
   annotations:
     greymatter.io/inject-sidecar-to: "5000"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pg-flask-app
+      app: flask
   template:
     metadata:
       labels:
-        app: pg-flask-app
+        app: flask
     spec:
       containers:
-        - name: pg-flask-app
+        - name: flask
           image: ghcr.io/greymatter-io/example-deployments/pg-flask-app:latest
           imagePullPolicy: IfNotPresent
           ports:
