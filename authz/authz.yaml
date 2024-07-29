@@ -28,4 +28,4 @@ spec:
           - name: RESPONSE_TEXT
             value: "Authz Allowed By Greymatter"
           - name: HTTP_STATUS
-            value: 200
+            value: "200"
