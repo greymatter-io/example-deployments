@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authz # Name of the GSL file
+  annotations: #Greymatter sidecar injection tag. Port should match containerPort e.g. 8080 
+    greymatter.io/inject-sidecar-to: "8080"
+  labels:
+    app: authz
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authz
+  template:
+    metadata:
+      labels:
+        app: authz
+    spec:
+      containers:
+        - name: authz
+          image: ghcr.io/greymatter-io/example-deployments/authz:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080 # Port that authz listens on
+          env:
+          - name: SERVICE_PORT
+            value: "8080"
+          - name: RESPONSE_TEXT
+            value: "Authz Allowed By Greymatter"
+          - name: HTTP_STATUS
+            value: 200
