@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opa
+  labels:
+    app: opa
+  annotations:
+    greymatter.io/inject-sidecar-to: "8181"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opa
+  template:
+    metadata:
+      labels:
+        app: opa
+      name: opa
+    spec:
+      containers:
+        - name: opa
+          image: openpolicyagent/opa:0.67.1-envoy-rootless
+          resources:
+            requests:
+              cpu: 50m
+              memory: 50Mi
+            limits:
+              cpu: 150m
+              memory: 150Mi
+          ports:
+            - name: http
+              containerPort: 8181
+          args:
+            - "run"
+            - "--ignore=.*"
+            - "--log-level=debug"
+            - "--set=plugins.envoy_ext_authz_grpc.query=data.envoy.authz.allow"
+            - "--set=plugins.envoy_ext_authz_grpc.addr=:9191"
+            - "--set=plugins.envoy_ext_authz_grpc.enable-reflection=true"
+            - "--set=decision_logs.console=true"
+            - "--server"
+            - "/policies"
+          volumeMounts:
+            - readOnly: true
+              mountPath: /policies
+              name: policy
+      volumes:
+        - name: policy
+          configMap:
+            name: policy
