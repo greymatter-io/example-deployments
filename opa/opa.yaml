@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: opa
-          image: openpolicyagent/opa:0.67.1-envoy-rootless
+          image: openpolicyagent/opa:0.67.1-envoy-1-static
           resources:
             requests:
               cpu: 50m
