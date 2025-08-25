@@ -4,8 +4,6 @@ metadata:
   name: flask
   labels:
     app: flask
-  annotations:
-    greymatter.io/inject-sidecar-to: "5000"
 spec:
   replicas: 1
   selector:

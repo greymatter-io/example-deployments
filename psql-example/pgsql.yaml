@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: postgres
-  annotations:
-    greymatter.io/inject-sidecar-to: "5432"
 spec:
   serviceName: "postgres"
   replicas: 1

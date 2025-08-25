@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: service-b # Name of the GSL file
-  annotations: #Greymatter sidecar injection tag. Port should match containerPort e.g. 8080 
-    greymatter.io/inject-sidecar-to: "8080"
   labels:
     app: service-b
 spec:
@@ -23,7 +21,7 @@ spec:
           ports:
             - containerPort: 8080 # Port that service-a listens on
           env:
-          - name: SERVICE_PORT
-            value: "8080"
-          - name: SERVICE_A_URL
-            value: "http://localhost:10909/services/a"
+            - name: SERVICE_PORT
+              value: "8080"
+            - name: SERVICE_A_URL
+              value: "http://localhost:10909/services/a"
