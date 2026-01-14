@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -23,6 +24,8 @@ spec:
           env:
             - name: SERVICE_PORT
               value: "8080"
+            - name: SECURITY_SETTING
+              value: "MTLS"
           resources:
             limits:
               cpu: 200m
@@ -30,3 +33,14 @@ spec:
             requests:
               cpu: 20m
               memory: 10Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-a
+spec:
+  selector:
+    app: service-a
+  ports:
+    - port: 8080
+      targetPort: 8080
